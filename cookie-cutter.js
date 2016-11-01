@@ -12,7 +12,14 @@ const setCookieFn = (cookieString) => {
   const str = [];
   cookieString.split(';').forEach(pair => {
     const trimmed = pair.trim();
-    str.push(`document.cookie = "${trimmed}";`);
+
+    // If the cookie contains a double quote, wrap cookie in single quotes.
+    // Otherwise, wrap in double quotes.
+    if (trimmed.indexOf('"') >= 0) {
+      str.push(`document.cookie = '${trimmed}';`);
+    } else {
+      str.push(`document.cookie = "${trimmed}";`);
+    }
   });
 
   const result = str.join(' ');
